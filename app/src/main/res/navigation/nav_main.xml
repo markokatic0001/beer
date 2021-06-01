@@ -7,5 +7,5 @@
     <fragment
         android:id="@+id/beerListFragment"
         android:name="com.example.beer.ui.BeerListFragment"
-        android:label="BeerListFragment" />
+        android:label="Beers" />
 </navigation>
