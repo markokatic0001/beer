@@ -41,4 +41,9 @@ dependencies {
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+
+    // Koin view model injection
+    implementation 'org.koin:koin-androidx-viewmodel:2.2.0-alpha-1'
+    implementation "org.koin:koin-androidx-scope:2.2.0-alpha-1"
+    implementation "org.koin:koin-androidx-fragment:2.2.0-alpha-1"
 }
