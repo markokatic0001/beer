@@ -1,11 +1,14 @@
 package com.example.beer.rest.model
 
+import androidx.room.PrimaryKey
+import com.example.beer.room.BeerDB
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
 class Beer {
     @SerializedName("id")
     @Expose
+    @PrimaryKey
     var id: Int? = null
 
     @SerializedName("name")
@@ -87,4 +90,8 @@ class Beer {
     @SerializedName("contributed_by")
     @Expose
     var contributedBy: String? = null
+
+    fun getBeerDB() : BeerDB {
+        return BeerDB(id = id?.toLong(), name = name, description = description, imageUrl = imageUrl, abv = abv, ibu = ibu, ebc = ebc)
+    }
 }

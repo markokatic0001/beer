@@ -6,6 +6,6 @@ import retrofit2.http.GET
 
 interface WebServiceBeer {
 
-    @GET("/beers")
-    fun getBeers() : Call<Beer>
+    @GET("beers")
+    fun getBeers() : Call<List<Beer>>
 }

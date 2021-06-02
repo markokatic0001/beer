@@ -1,21 +1,24 @@
 package com.example.beer
 
 import android.app.Application
+import android.content.Context
 import com.example.beer.koin.viewModelModule
-import com.example.beer.rest.WebServiceBeer
-import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
+import com.example.beer.rest.BeerRepository
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 
 
 class BeerApplication : Application() {
 
+    companion object {
+        @kotlin.jvm.JvmStatic
+        lateinit var instance: Context
+    }
+
     override fun onCreate() {
         super.onCreate()
+        instance = this
         startKoin {
             androidContext(this@BeerApplication)
 
@@ -25,16 +28,6 @@ class BeerApplication : Application() {
                 viewModelModule
             )
         }
-        val interceptor = HttpLoggingInterceptor()
-        interceptor.level = HttpLoggingInterceptor.Level.BODY
-        val client = OkHttpClient.Builder().addInterceptor(interceptor).build()
-
-        val retrofit = Retrofit.Builder()
-            .baseUrl("https://api.punkapi.com/v2/")
-            .client(client)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-
-        retrofit.create(WebServiceBeer::class.java)
+        BeerRepository.init()
     }
 }
