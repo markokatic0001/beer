@@ -15,10 +15,6 @@ class BeersAdapter(
         private val listener: BeersAdapterClickListener
 ) : RecyclerView.Adapter<BeersAdapter.BeerHolder>() {
 
-    init {
-        setHasStableIds(true)
-    }
-
     var beerList: List<BeerDB> = listOf()
         set(value) {
             field = value

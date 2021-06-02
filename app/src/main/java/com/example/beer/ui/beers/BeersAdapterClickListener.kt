@@ -4,5 +4,5 @@ import com.example.beer.room.BeerDB
 
 interface BeersAdapterClickListener {
 
-    fun onBeerClicked(participant: BeerDB)
+    fun onBeerClicked(beer: BeerDB)
 }

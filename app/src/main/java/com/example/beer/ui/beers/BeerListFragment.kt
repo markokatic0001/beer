@@ -40,8 +40,8 @@ class BeerListFragment : Fragment(R.layout.fragment_beer_list) {
     }
 
     private fun observe() {
-        viewModel.beersLiveData.observe(viewLifecycleOwner, Observer {
-            adapter.beerList = it
+        viewModel.getBeersDB()?.observe(viewLifecycleOwner, Observer { beers ->
+            beers?.let { adapter.beerList = it }
         })
     }
 }
