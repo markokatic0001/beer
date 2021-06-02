@@ -1,4 +1,4 @@
-package com.example.beer.ui
+package com.example.beer.ui.beers
 
 import com.example.beer.room.BeerDB
 
