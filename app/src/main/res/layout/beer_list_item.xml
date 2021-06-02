@@ -8,8 +8,7 @@
     <ImageView
         android:id="@+id/photo"
         android:layout_width="@dimen/default_item_size"
-        android:layout_height="@dimen/default_item_size"
-        android:layout_marginStart="@dimen/default_margin"/>
+        android:layout_height="@dimen/default_item_size"/>
 
     <TextView
         android:id="@+id/name"

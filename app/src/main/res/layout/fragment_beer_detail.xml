@@ -22,7 +22,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/photo_height"
                 android:layout_marginBottom="@dimen/default_margin"
-                android:scaleType="centerCrop"
+                android:scaleType="centerInside"
+                android:layout_marginTop="@dimen/default_margin"
                 tools:srcCompat="@tools:sample/backgrounds/scenic" />
 
             <TextView

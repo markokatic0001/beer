@@ -1,6 +1,7 @@
 package com.example.beer.ui.details
 
 import android.os.Bundle
+import android.view.MenuItem
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
@@ -16,8 +17,20 @@ class BeerDetailFragment : Fragment(R.layout.fragment_beer_detail) {
 
         binding = FragmentBeerDetailBinding.bind(view)
 
+        setHasOptionsMenu(true)
+
         val args: BeerDetailFragmentArgs by navArgs()
         args.beer?.let { setLayout(it) }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return if (item.itemId == android.R.id.home) {
+            // Redirect "Up/Home" button clicks to our own function
+            requireActivity().onBackPressed()
+            true
+        } else {
+            super.onOptionsItemSelected(item)
+        }
     }
 
     private fun setLayout(beer: BeerDB) {
