@@ -1,4 +1,4 @@
-package com.example.beer.ui
+package com.example.beer.ui.beers
 
 import android.content.Context
 import android.view.LayoutInflater

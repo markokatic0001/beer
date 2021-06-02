@@ -6,6 +6,23 @@
 
     <fragment
         android:id="@+id/beerListFragment"
-        android:name="com.example.beer.ui.BeerListFragment"
-        android:label="Beers" />
+        android:name="com.example.beer.ui.beers.BeerListFragment"
+        android:label="Beers">
+        <action
+            android:id="@+id/action_beerListFragment_to_beerDetailFragment"
+            app:destination="@id/beerDetailFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/beerDetailFragment"
+        android:name="com.example.beer.ui.details.BeerDetailFragment"
+        android:label="Details">
+
+        <argument
+            android:name="beer"
+            android:defaultValue="@null"
+            app:argType="com.example.beer.room.BeerDB"
+            app:nullable="true" />
+    </fragment>
+
 </navigation>

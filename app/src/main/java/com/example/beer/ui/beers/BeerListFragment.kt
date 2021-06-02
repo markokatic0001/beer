@@ -1,10 +1,11 @@
-package com.example.beer.ui
+package com.example.beer.ui.beers
 
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.beer.R
 import com.example.beer.databinding.FragmentBeerListBinding
@@ -28,9 +29,11 @@ class BeerListFragment : Fragment(R.layout.fragment_beer_list) {
 
     private fun setLayout() {
         binding.beerList.layoutManager = LinearLayoutManager(requireContext())
-        adapter = BeersAdapter(object: BeersAdapterClickListener{
-            override fun onBeerClicked(participant: BeerDB) {
-
+        adapter = BeersAdapter(object : BeersAdapterClickListener {
+            override fun onBeerClicked(beer: BeerDB) {
+                requireActivity().findNavController(R.id.navigationFragment).navigate(
+                    BeerListFragmentDirections.actionBeerListFragmentToBeerDetailFragment(beer)
+                )
             }
         })
         binding.beerList.adapter = adapter
