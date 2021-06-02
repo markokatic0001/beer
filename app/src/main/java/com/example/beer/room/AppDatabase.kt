@@ -5,5 +5,5 @@ import androidx.room.RoomDatabase
 
 @Database(version = 1, exportSchema = false, entities = [BeerDB::class])
 abstract class AppDatabase : RoomDatabase() {
-    abstract fun fishAlbumDao(): BeersDao?
+    abstract fun beersDao(): BeersDao?
 }
