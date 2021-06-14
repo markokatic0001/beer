@@ -29,7 +29,10 @@ class BeerDB(
     var ibu: Double? = null,
 
     @ColumnInfo(name = "ebc")
-    var ebc: Double? = null
+    var ebc: Double? = null,
+
+    @ColumnInfo(name = "favorite")
+    var favorite: Boolean? = false
 ): Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readValue(Long::class.java.classLoader) as? Long,

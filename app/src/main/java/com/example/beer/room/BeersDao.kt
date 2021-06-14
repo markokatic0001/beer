@@ -19,4 +19,7 @@ interface BeersDao {
 
     @Query("SELECT * FROM beers ORDER BY ebc DESC")
     fun beerListEbc(): List<BeerDB>?
+
+    @Query("UPDATE beers SET favorite = :favorite WHERE id = :id")
+    fun updateBeer(id: Long, favorite: Boolean?): Int
 }

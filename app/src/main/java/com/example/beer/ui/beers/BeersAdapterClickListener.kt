@@ -5,4 +5,5 @@ import com.example.beer.room.BeerDB
 interface BeersAdapterClickListener {
 
     fun onBeerClicked(beer: BeerDB)
+    fun onBeerLongClicked(pos: Int)
 }

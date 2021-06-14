@@ -17,6 +17,7 @@ import kotlinx.coroutines.launch
 class BeerListViewModel(val app: Application) : ViewModel() {
 
     val beerListLiveData: MutableLiveData<List<BeerDB>> = MutableLiveData()
+    val favoriteLiveData: MutableLiveData<Int> = MutableLiveData()
     private var filteredBy = 0
     private var dbHandler: Handler? = null
 
@@ -46,6 +47,17 @@ class BeerListViewModel(val app: Application) : ViewModel() {
 
             }
         })
+    }
+
+    private fun getBeersDB() {
+        getDBHandler()?.post {
+            val beers = AppDb.instance?.appDatabase?.beersDao()?.beerList()
+            if (beers == null || beers.isEmpty()) {
+                getBeers()
+            } else {
+                beerListLiveData.postValue(beers)
+            }
+        }
     }
 
     private fun getDBHandler(): Handler? {
@@ -80,10 +92,17 @@ class BeerListViewModel(val app: Application) : ViewModel() {
 
     fun prepareList() {
         when (filteredBy) {
-            BEERS_DEFAULT -> getBeers()
+            BEERS_DEFAULT -> getBeersDB()
             BEERS_ABV -> getBeersABV()
             BEERS_IBU -> getBeersIBU()
             BEERS_EBC -> getBeersEBC()
+        }
+    }
+
+    fun setFavorite(id: Long, favorite: Boolean?, pos: Int) {
+        getDBHandler()?.post {
+            AppDb.instance?.appDatabase?.beersDao()?.updateBeer(id, favorite)
+            favoriteLiveData.postValue(pos)
         }
     }
 }

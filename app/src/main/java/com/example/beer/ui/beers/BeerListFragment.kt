@@ -40,6 +40,11 @@ class BeerListFragment : Fragment(R.layout.fragment_beer_list) {
                     BeerListFragmentDirections.actionBeerListFragmentToBeerDetailFragment(beer)
                 )
             }
+
+            override fun onBeerLongClicked(pos: Int) {
+                val beer = adapter.beerList[pos]
+                beer.id?.let { viewModel.setFavorite(it, beer.favorite?.not(), pos) }
+            }
         })
         binding.beerList.adapter = adapter
     }
@@ -68,6 +73,11 @@ class BeerListFragment : Fragment(R.layout.fragment_beer_list) {
     }
 
     private fun observe() {
+        viewModel.favoriteLiveData.observe(viewLifecycleOwner, Observer {
+            if (adapter.beerList.isEmpty()) return@Observer
+            val beer = adapter.beerList[it]
+            beer.favorite?.let { fav -> adapter.updateBeerItem(it, fav.not()) }
+        })
         viewModel.beerListLiveData.observe(viewLifecycleOwner, Observer {
             adapter.beerList = it
         })
