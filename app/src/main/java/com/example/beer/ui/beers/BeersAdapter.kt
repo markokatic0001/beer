@@ -12,7 +12,7 @@ import com.example.beer.R
 import com.example.beer.room.BeerDB
 
 class BeersAdapter(
-        private val listener: BeersAdapterClickListener
+    private val listener: BeersAdapterClickListener
 ) : RecyclerView.Adapter<BeersAdapter.BeerHolder>() {
 
     var beerList: List<BeerDB> = listOf()
@@ -21,28 +21,41 @@ class BeersAdapter(
             notifyDataSetChanged()
         }
 
+    fun updateBeerItem(pos: Int, favorite: Boolean) {
+        beerList[pos].favorite = favorite
+        notifyItemChanged(pos)
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BeerHolder {
         val view = LayoutInflater.from(parent.context)
-                .inflate(R.layout.beer_list_item, parent, false)
+            .inflate(R.layout.beer_list_item, parent, false)
         return BeerHolder(parent.context, view)
     }
 
     override fun onBindViewHolder(holder: BeerHolder, position: Int) {
-        holder.bindView(beerList[position])
+        holder.bindView(position)
     }
 
     override fun getItemCount(): Int = beerList.size
 
     inner class BeerHolder(val context: Context, itemView: View) :
-            RecyclerView.ViewHolder(itemView)  {
+        RecyclerView.ViewHolder(itemView) {
         private val name = itemView.findViewById<TextView>(R.id.name)
         private val photo = itemView.findViewById<ImageView>(R.id.photo)
-        fun bindView(beer: BeerDB) {
+        private val fav = itemView.findViewById<ImageView>(R.id.favorite)
+        fun bindView(pos: Int) {
+            val beer = beerList[pos]
             name.text = beer.name
             photo.load(beer.imageUrl)
+            if (beer.favorite == true) {
+                fav.load(R.drawable.ic_baseline_favorite_48)
+            } else {
+                fav.load(R.drawable.ic_baseline_favorite_border_48)
+            }
             itemView.setOnClickListener {
                 listener.onBeerClicked(beer)
             }
+            itemView.setOnLongClickListener { listener.onBeerLongClicked(pos); true}
         }
     }
 }
