@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/abv"
+        android:orderInCategory="100"
+        android:title="ABV" />
+
+    <item
+        android:id="@+id/ibu"
+        android:orderInCategory="200"
+        android:title="IBU" />
+
+    <item
+        android:id="@+id/ebc"
+        android:orderInCategory="200"
+        android:title="EBC" />
+
+    <item
+        android:id="@+id/favorites"
+        android:orderInCategory="200"
+        android:title="Favorites" />
+
+</menu>

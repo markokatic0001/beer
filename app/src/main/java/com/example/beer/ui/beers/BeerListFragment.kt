@@ -1,6 +1,9 @@
 package com.example.beer.ui.beers
 
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -21,9 +24,11 @@ class BeerListFragment : Fragment(R.layout.fragment_beer_list) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding = FragmentBeerListBinding.bind(view)
         setLayout()
+        setHasOptionsMenu(true)
         observe()
+
         lifecycleScope.launchWhenStarted {
-            viewModel.getBeers()
+            viewModel.prepareList()
         }
     }
 
@@ -39,9 +44,32 @@ class BeerListFragment : Fragment(R.layout.fragment_beer_list) {
         binding.beerList.adapter = adapter
     }
 
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.options, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.abv -> {
+                viewModel.getBeersABV()
+                true
+            }
+            R.id.ibu -> {
+                viewModel.getBeersIBU()
+                true
+            }
+            R.id.ebc -> {
+                viewModel.getBeersEBC()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
     private fun observe() {
-        viewModel.getBeersDB()?.observe(viewLifecycleOwner, Observer { beers ->
-            beers?.let { adapter.beerList = it }
+        viewModel.beerListLiveData.observe(viewLifecycleOwner, Observer {
+            adapter.beerList = it
         })
     }
 }
