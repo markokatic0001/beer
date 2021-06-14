@@ -1,7 +1,9 @@
 package com.example.beer.ui.beers
 
 import android.app.Application
-import androidx.lifecycle.LiveData
+import android.os.Handler
+import android.os.HandlerThread
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.beer.rest.BeerRepository
@@ -14,26 +16,74 @@ import kotlinx.coroutines.launch
 
 class BeerListViewModel(val app: Application) : ViewModel() {
 
-    fun getBeers() = viewModelScope.launch(Dispatchers.IO) {
-            BeerRepository.getBeers(object: OnApiResponse{
-                override fun onResult(success: Any?) {
-                    val beersDB = mutableListOf<BeerDB>()
-                    for(beer in (success as List<Beer>)){
-                        val beerDB = beer.getBeerDB()
-                        beersDB.add(beerDB)
-                    }
-                    Thread {
-                        AppDb.instance?.appDatabase?.beersDao()?.update(beersDB)
-                    }.start()
-                }
+    val beerListLiveData: MutableLiveData<List<BeerDB>> = MutableLiveData()
+    private var filteredBy = 0
+    private var dbHandler: Handler? = null
 
-                override fun onError(err: String?) {
-
-                }
-            })
+    companion object {
+        private const val BEERS_DEFAULT = 0
+        private const val BEERS_ABV = 1
+        private const val BEERS_IBU = 2
+        private const val BEERS_EBC = 3
     }
 
-    fun getBeersDB(): LiveData<List<BeerDB>?>? {
-       return AppDb.instance?.appDatabase?.beersDao()?.beerList()
+    private fun getBeers() = viewModelScope.launch(Dispatchers.IO) {
+        BeerRepository.getBeers(object : OnApiResponse {
+            override fun onResult(success: Any?) {
+                val beersDB = mutableListOf<BeerDB>()
+                filteredBy = BEERS_DEFAULT
+                for (beer in (success as List<Beer>)) {
+                    val beerDB = beer.getBeerDB()
+                    beersDB.add(beerDB)
+                }
+
+                getDBHandler()?.post { AppDb.instance?.appDatabase?.beersDao()?.update(beersDB) }
+
+                beerListLiveData.postValue(beersDB)
+            }
+
+            override fun onError(err: String?) {
+
+            }
+        })
+    }
+
+    private fun getDBHandler(): Handler? {
+        if (dbHandler == null) {
+            val mThread = HandlerThread("db-thread")
+            mThread.start()
+            dbHandler = Handler(mThread.looper)
+        }
+        return dbHandler
+    }
+
+    fun getBeersABV() {
+        getDBHandler()?.post {
+            filteredBy = BEERS_ABV
+            beerListLiveData.postValue(AppDb.instance?.appDatabase?.beersDao()?.beerListAbv())
+        }
+    }
+
+    fun getBeersIBU() {
+        getDBHandler()?.post {
+            filteredBy = BEERS_IBU
+            beerListLiveData.postValue(AppDb.instance?.appDatabase?.beersDao()?.beerListIbu())
+        }
+    }
+
+    fun getBeersEBC() {
+        getDBHandler()?.post {
+            filteredBy = BEERS_EBC
+            beerListLiveData.postValue(AppDb.instance?.appDatabase?.beersDao()?.beerListEbc())
+        }
+    }
+
+    fun prepareList() {
+        when (filteredBy) {
+            BEERS_DEFAULT -> getBeers()
+            BEERS_ABV -> getBeersABV()
+            BEERS_IBU -> getBeersIBU()
+            BEERS_EBC -> getBeersEBC()
+        }
     }
 }
