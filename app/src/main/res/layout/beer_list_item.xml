@@ -18,14 +18,14 @@
         android:layout_marginStart="@dimen/default_margin"/>
 
     <RelativeLayout
-        android:layout_width="0dp"
+        android:layout_width="@dimen/default_item_size"
         android:layout_height="@dimen/default_item_size"
         android:layout_weight="1">
 
         <ImageView
             android:id="@+id/favorite"
             android:layout_width="@dimen/default_item_size"
-            android:layout_height="match_parent"
+            android:layout_height="@dimen/default_item_size"
             android:src="@drawable/ic_baseline_favorite_border_48"
             android:layout_alignParentEnd="true"/>
     </RelativeLayout>

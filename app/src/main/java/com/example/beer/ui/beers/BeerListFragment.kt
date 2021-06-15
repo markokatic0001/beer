@@ -68,6 +68,13 @@ class BeerListFragment : Fragment(R.layout.fragment_beer_list) {
                 viewModel.getBeersEBC()
                 true
             }
+            R.id.favorites -> {
+                requireActivity().findNavController(R.id.navigationFragment).navigate(
+                    BeerListFragmentDirections.actionBeerListFragmentToFavoritesFragment(viewModel.beerListLiveData.value!!.filter { it.favorite!! }
+                        .toTypedArray())
+                )
+                true
+            }
             else -> super.onOptionsItemSelected(item)
         }
     }
@@ -78,7 +85,7 @@ class BeerListFragment : Fragment(R.layout.fragment_beer_list) {
             val beer = adapter.beerList[it]
             beer.favorite?.let { fav -> adapter.updateBeerItem(it, fav.not()) }
         })
-        viewModel.beerListLiveData.observe(viewLifecycleOwner, Observer {
+        viewModel.beerListLiveData.observe(viewLifecycleOwner, {
             adapter.beerList = it
         })
     }
