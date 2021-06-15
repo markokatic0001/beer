@@ -39,5 +39,8 @@
             android:defaultValue="@null"
             app:argType="com.example.beer.room.BeerDB[]"
             app:nullable="true" />
+        <action
+            android:id="@+id/action_favoritesFragment_to_beerDetailFragment"
+            app:destination="@id/beerDetailFragment" />
     </fragment>
 </navigation>

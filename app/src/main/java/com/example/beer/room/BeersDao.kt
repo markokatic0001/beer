@@ -11,6 +11,9 @@ interface BeersDao {
     @Query("SELECT * FROM beers")
     fun beerList(): List<BeerDB>?
 
+    @Query("SELECT * FROM beers WHERE favorite='true'")
+    fun favorites(): List<BeerDB>?
+
     @Query("SELECT * FROM beers ORDER BY abv DESC")
     fun beerListAbv(): List<BeerDB>?
 
