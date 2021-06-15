@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_main"
     app:startDestination="@id/beerListFragment">
 
@@ -11,6 +12,9 @@
         <action
             android:id="@+id/action_beerListFragment_to_beerDetailFragment"
             app:destination="@id/beerDetailFragment" />
+        <action
+            android:id="@+id/action_beerListFragment_to_favoritesFragment"
+            app:destination="@id/favoritesFragment" />
     </fragment>
 
     <fragment
@@ -24,5 +28,16 @@
             app:argType="com.example.beer.room.BeerDB"
             app:nullable="true" />
     </fragment>
+    <fragment
+        android:id="@+id/favoritesFragment"
+        android:name="com.example.beer.ui.favorites.FavoritesFragment"
+        android:label="Favorites"
+        tools:layout="@layout/fragment_favorites">
 
+        <argument
+            android:name="beers"
+            android:defaultValue="@null"
+            app:argType="com.example.beer.room.BeerDB[]"
+            app:nullable="true" />
+    </fragment>
 </navigation>
