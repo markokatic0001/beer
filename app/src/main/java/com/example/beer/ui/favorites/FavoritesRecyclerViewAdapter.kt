@@ -7,14 +7,15 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
+import com.example.beer.R
 import com.example.beer.databinding.FavoriteItemBinding
 import com.example.beer.room.BeerDB
 import com.example.beer.ui.beers.BeersAdapterClickListener
 
-class MyFavoritesRecyclerViewAdapter(
+class FavoritesRecyclerViewAdapter(
     private val values: List<BeerDB>,
     private val listener: BeersAdapterClickListener
-) : RecyclerView.Adapter<MyFavoritesRecyclerViewAdapter.ViewHolder>() {
+) : RecyclerView.Adapter<FavoritesRecyclerViewAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
@@ -40,7 +41,9 @@ class MyFavoritesRecyclerViewAdapter(
         fun bindView(pos: Int) {
 
             val item = values[pos]
-            beerImage.load(item.imageUrl)
+            beerImage.load(item.imageUrl) {
+                error(R.drawable.ic_baseline_not_interested_48)
+            }
             beerName.text = item.name
 
             favLayout.setOnClickListener {

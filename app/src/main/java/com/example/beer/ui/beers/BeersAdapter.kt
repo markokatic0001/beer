@@ -15,7 +15,7 @@ class BeersAdapter(
     private val listener: BeersAdapterClickListener
 ) : RecyclerView.Adapter<BeersAdapter.BeerHolder>() {
 
-    var beerList: List<BeerDB> = listOf()
+    var beerList: MutableList<BeerDB> = mutableListOf()
         set(value) {
             field = value
             notifyDataSetChanged()

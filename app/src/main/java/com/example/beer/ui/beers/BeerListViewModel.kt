@@ -3,6 +3,7 @@ package com.example.beer.ui.beers
 import android.app.Application
 import android.os.Handler
 import android.os.HandlerThread
+import android.view.View
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -18,8 +19,12 @@ class BeerListViewModel(val app: Application) : ViewModel() {
 
     val beerListLiveData: MutableLiveData<List<BeerDB>> = MutableLiveData()
     val favoriteLiveData: MutableLiveData<Int> = MutableLiveData()
-    private var filteredBy = 0
+    val progressBarLiveData: MutableLiveData<Int> = MutableLiveData()
+
+    var filteredBy = 0
     private var dbHandler: Handler? = null
+    var hasMorePages = true
+    private var page = 1
 
     companion object {
         private const val BEERS_DEFAULT = 0
@@ -28,7 +33,9 @@ class BeerListViewModel(val app: Application) : ViewModel() {
         private const val BEERS_EBC = 3
     }
 
-    private fun getBeers() = viewModelScope.launch(Dispatchers.IO) {
+    fun getBeers() = viewModelScope.launch(Dispatchers.IO) {
+        if (hasMorePages.not()) return@launch
+        progressBarLiveData.postValue(View.VISIBLE)
         BeerRepository.getBeers(object : OnApiResponse {
             override fun onResult(success: Any?) {
                 val beersDB = mutableListOf<BeerDB>()
@@ -38,18 +45,22 @@ class BeerListViewModel(val app: Application) : ViewModel() {
                     beersDB.add(beerDB)
                 }
 
-                getDBHandler()?.post { AppDb.instance?.appDatabase?.beersDao()?.update(beersDB) }
+                getDBHandler()?.post { AppDb.instance?.appDatabase?.beersDao()?.insert(beersDB) }
 
                 beerListLiveData.postValue(beersDB)
+
+                hasMorePages = beersDB.size > 0
+                page++
+                progressBarLiveData.postValue(View.GONE)
             }
 
             override fun onError(err: String?) {
-
+                progressBarLiveData.postValue(View.GONE)
             }
-        })
+        }, page)
     }
 
-    private fun getBeersDB() {
+    private fun getBeersDefault() {
         getDBHandler()?.post {
             val beers = AppDb.instance?.appDatabase?.beersDao()?.beerList()
             if (beers == null || beers.isEmpty()) {
@@ -92,7 +103,7 @@ class BeerListViewModel(val app: Application) : ViewModel() {
 
     fun prepareList() {
         when (filteredBy) {
-            BEERS_DEFAULT -> getBeersDB()
+            BEERS_DEFAULT -> getBeersDefault()
             BEERS_ABV -> getBeersABV()
             BEERS_IBU -> getBeersIBU()
             BEERS_EBC -> getBeersEBC()

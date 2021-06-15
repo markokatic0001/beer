@@ -13,9 +13,11 @@ object BeerRepository {
     private const val BASE_URL: String = "https://api.punkapi.com/v2/"
     lateinit var webServiceBeer: WebServiceBeer
 
-    fun getBeers(callback: OnApiResponse) {
+    private const val ITEMS_PER_PAGE = 20
+
+    fun getBeers(callback: OnApiResponse, page: Int) {
         try {
-            val getBeersCall = webServiceBeer.getBeers()
+            val getBeersCall = webServiceBeer.getBeers(page.toString(), ITEMS_PER_PAGE.toString())
             getBeersCall.enqueue(object : retrofit2.Callback<List<Beer>?> {
                 override fun onResponse(
                     call: Call<List<Beer>?>,
