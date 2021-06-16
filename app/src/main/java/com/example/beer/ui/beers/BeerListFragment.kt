@@ -1,6 +1,7 @@
 package com.example.beer.ui.beers
 
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
@@ -105,7 +106,8 @@ class BeerListFragment : Fragment(R.layout.fragment_beer_list) {
             beer.favorite?.let { fav -> adapter.updateBeerItem(it, fav.not()) }
         })
         viewModel.beerListLiveData.observe(viewLifecycleOwner, {
-            if (viewModel.filteredBy == 0 && it.isNotEmpty() && !adapter.beerList.contains(it[0])) {
+            Log.d("TAG", "observe: ${it.size} ${adapter.beerList.size}")
+            if (viewModel.filteredBy == 0 && it.isNotEmpty() && adapter.beerList.isNotEmpty() && !it.any { beer -> beer.name == adapter.beerList[0].name }) {
                 adapter.beerList.addAll(it)
                 adapter.notifyDataSetChanged()
             } else {
