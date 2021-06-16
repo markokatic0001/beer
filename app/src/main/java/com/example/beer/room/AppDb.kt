@@ -3,6 +3,9 @@ package com.example.beer.room
 import androidx.room.Room
 import com.example.beer.BeerApplication
 
+/*
+ * Created by Marko 16 June 2021.
+ */
 class AppDb private constructor() {
     var appDatabase: AppDatabase? = null
         get() {

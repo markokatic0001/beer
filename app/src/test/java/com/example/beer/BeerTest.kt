@@ -8,6 +8,9 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Rule
 import org.junit.Test
 
+/*
+ * Created by Marko 16 June 2021.
+ */
 class BeerTest {
 
     @get:Rule

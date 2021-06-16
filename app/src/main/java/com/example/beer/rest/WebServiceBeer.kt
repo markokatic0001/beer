@@ -5,6 +5,9 @@ import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Query
 
+/*
+ * Created by Marko 16 June 2021.
+ */
 interface WebServiceBeer {
 
     @GET("beers")

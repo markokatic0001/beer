@@ -6,6 +6,10 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
 import com.example.beer.R
 
+/*
+ * Created by Marko 16 June 2021.
+ * Main class
+ */
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

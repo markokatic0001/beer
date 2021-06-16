@@ -9,6 +9,9 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
+/*
+ * Created by Marko 16 June 2021.
+ */
 object BeerRepository {
     private const val BASE_URL: String = "https://api.punkapi.com/v2/"
     lateinit var webServiceBeer: WebServiceBeer

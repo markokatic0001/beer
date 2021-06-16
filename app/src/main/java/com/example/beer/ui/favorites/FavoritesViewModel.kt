@@ -8,11 +8,15 @@ import androidx.lifecycle.ViewModel
 import com.example.beer.room.AppDb
 import com.example.beer.room.BeerDB
 
+/*
+ * Created by Marko 16 June 2021.
+ */
 class FavoritesViewModel(val app: Application) : ViewModel() {
 
     val favoritesLiveData: MutableLiveData<List<BeerDB>> = MutableLiveData()
     private var dbHandler: Handler? = null
 
+    //This one loads favorite beers from local DB
     fun loadFavoritesFromDB() {
         getDBHandler()?.post {
             val beers = AppDb.instance?.appDatabase?.beersDao()?.favorites()
