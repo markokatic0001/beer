@@ -87,6 +87,7 @@ class BeerListFragment : Fragment(R.layout.fragment_beer_list) {
                 true
             }
             R.id.favorites -> {
+                if (viewModel.beerListLiveData.value == null) return true
                 requireActivity().findNavController(R.id.navigationFragment).navigate(
                     BeerListFragmentDirections.actionBeerListFragmentToFavoritesFragment(viewModel.beerListLiveData.value!!.filter { it.favorite!! }
                         .toTypedArray())

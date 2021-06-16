@@ -63,7 +63,7 @@ class BeerListViewModel(val app: Application) : ViewModel() {
     private fun getBeersDefault() {
         getDBHandler()?.post {
             val beers = AppDb.instance?.appDatabase?.beersDao()?.beerList()
-            if (beers == null || beers.isEmpty()) {
+            if (beers == null || beers.isEmpty() || beers.size < 100) {
                 getBeers()
             } else {
                 beerListLiveData.postValue(beers)
