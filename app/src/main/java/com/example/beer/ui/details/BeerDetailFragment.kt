@@ -10,6 +10,9 @@ import com.example.beer.R
 import com.example.beer.databinding.FragmentBeerDetailBinding
 import com.example.beer.room.BeerDB
 
+/*
+ * Created by Marko 16 June 2021.
+ */
 class BeerDetailFragment : Fragment(R.layout.fragment_beer_detail) {
 
     lateinit var binding: FragmentBeerDetailBinding

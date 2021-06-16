@@ -12,6 +12,9 @@ import com.example.beer.databinding.FavoriteItemBinding
 import com.example.beer.room.BeerDB
 import com.example.beer.ui.beers.BeersAdapterClickListener
 
+/*
+ * Created by Marko 16 June 2021.
+ */
 class FavoritesRecyclerViewAdapter(
     private val values: List<BeerDB>,
     private val listener: BeersAdapterClickListener

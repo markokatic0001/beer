@@ -6,6 +6,9 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
+/*
+ * Created by Marko 16 June 2021.
+ */
 @Entity(tableName = "beers")
 class BeerDB(
 

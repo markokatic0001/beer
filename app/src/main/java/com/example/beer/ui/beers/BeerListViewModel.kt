@@ -15,6 +15,9 @@ import com.example.beer.room.BeerDB
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
+/*
+ * Created by Marko 16 June 2021.
+ */
 class BeerListViewModel(val app: Application) : ViewModel() {
 
     val beerListLiveData: MutableLiveData<List<BeerDB>> = MutableLiveData()
@@ -64,6 +67,9 @@ class BeerListViewModel(val app: Application) : ViewModel() {
         }, page)
     }
 
+    // This method is used to show initial beers list.
+    // First we are checking if there are saved beers in local database,
+    // and if not we try to get them via API
     private fun getBeersDefault() {
         getDBHandler()?.post {
             val beers = AppDb.instance?.appDatabase?.beersDao()?.beerList()
@@ -105,6 +111,7 @@ class BeerListViewModel(val app: Application) : ViewModel() {
         }
     }
 
+    // This method should be called when view is created to get beers and show them into the list
     fun prepareList() {
         when (filteredBy) {
             BEERS_DEFAULT -> getBeersDefault()

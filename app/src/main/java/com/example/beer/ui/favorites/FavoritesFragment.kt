@@ -15,6 +15,10 @@ import com.example.beer.ui.beers.BeersAdapterClickListener
 import com.google.android.flexbox.FlexboxLayoutManager
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
+/*
+ * Created by Marko 16 June 2021.
+ * Showing favorite beers
+ */
 class FavoritesFragment : Fragment(R.layout.fragment_favorites) {
 
     lateinit var binding: FragmentFavoritesBinding

@@ -18,6 +18,10 @@ import com.example.beer.databinding.FragmentBeerListBinding
 import com.example.beer.room.BeerDB
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
+/*
+ * Created by Marko 16 June 2021.
+ * Beer list
+ */
 class BeerListFragment : Fragment(R.layout.fragment_beer_list) {
 
     lateinit var binding: FragmentBeerListBinding
