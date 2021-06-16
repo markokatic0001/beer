@@ -7,7 +7,6 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.beer.R
 import com.example.beer.databinding.FragmentFavoritesBinding
@@ -25,14 +24,7 @@ class FavoritesFragment : Fragment(R.layout.fragment_favorites) {
         binding = FragmentFavoritesBinding.bind(view)
         setHasOptionsMenu(true)
 
-        val args: FavoritesFragmentArgs by navArgs()
-        args.beers?.let {
-            setLayout(it.toMutableList())
-            Log.d("TAG", "onViewCreated: ARGS")
-        } ?: run {
-            viewModel.loadFavoritesFromDB()
-            Log.d("TAG", "onViewCreated: DB")
-        }
+        viewModel.loadFavoritesFromDB()
 
         observe()
     }
@@ -61,7 +53,7 @@ class FavoritesFragment : Fragment(R.layout.fragment_favorites) {
         val layoutManager = FlexboxLayoutManager(requireContext())
         binding.favoritesGrid.layoutManager = layoutManager
         val adapter =
-            MyFavoritesRecyclerViewAdapter(favorites, object : BeersAdapterClickListener {
+            FavoritesRecyclerViewAdapter(favorites, object : BeersAdapterClickListener {
                 override fun onBeerClicked(beer: BeerDB) {
                     requireActivity().findNavController(R.id.navigationFragment).navigate(
                         FavoritesFragmentDirections.actionFavoritesFragmentToBeerDetailFragment(

@@ -6,12 +6,12 @@ import androidx.room.*
 @Dao
 interface BeersDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun update(beers: List<BeerDB>?)
+    fun insert(beers: List<BeerDB>?)
 
     @Query("SELECT * FROM beers")
     fun beerList(): List<BeerDB>?
 
-    @Query("SELECT * FROM beers WHERE favorite='true'")
+    @Query("SELECT * FROM beers WHERE favorite")
     fun favorites(): List<BeerDB>?
 
     @Query("SELECT * FROM beers ORDER BY abv DESC")
