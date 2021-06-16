@@ -34,6 +34,10 @@ class BeerListViewModel(val app: Application) : ViewModel() {
     }
 
     fun getBeers() = viewModelScope.launch(Dispatchers.IO) {
+        if (page == 1 && beerListLiveData.value != null && beerListLiveData.value!!.size > 20) {
+            page = beerListLiveData.value!!.size / 20 + 1
+            hasMorePages = beerListLiveData.value!!.size < 100
+        }
         if (hasMorePages.not()) return@launch
         progressBarLiveData.postValue(View.VISIBLE)
         BeerRepository.getBeers(object : OnApiResponse {

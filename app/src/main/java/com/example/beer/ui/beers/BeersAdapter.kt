@@ -41,10 +41,12 @@ class BeersAdapter(
     inner class BeerHolder(val context: Context, itemView: View) :
         RecyclerView.ViewHolder(itemView) {
         private val name = itemView.findViewById<TextView>(R.id.name)
+        private val num = itemView.findViewById<TextView>(R.id.num)
         private val photo = itemView.findViewById<ImageView>(R.id.photo)
         private val fav = itemView.findViewById<ImageView>(R.id.favorite)
         fun bindView(pos: Int) {
             val beer = beerList[pos]
+            num.text = (pos + 1).toString()
             name.text = beer.name
             photo.load(beer.imageUrl)
             if (beer.favorite == true) {
@@ -55,7 +57,7 @@ class BeersAdapter(
             itemView.setOnClickListener {
                 listener.onBeerClicked(beer)
             }
-            itemView.setOnLongClickListener { listener.onBeerLongClicked(pos); true}
+            itemView.setOnLongClickListener { listener.onBeerLongClicked(pos); true }
         }
     }
 }
